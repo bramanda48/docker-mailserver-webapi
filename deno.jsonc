@@ -11,7 +11,7 @@
     "std/": "https://deno.land/std@0.218.0/",
     "esbuild": "https://deno.land/x/esbuild@v0.20.1/mod.js",
     "esbuild/loader": "https://deno.land/x/esbuild_deno_loader@0.9.0/mod.ts",
-    "hono": "https://deno.land/x/hono@v4.0.8/hono.ts",
+    "hono": "https://deno.land/x/hono@v4.0.8/mod.ts",
     "hono/cors": "https://deno.land/x/hono@v4.0.8/middleware/cors/index.ts",
     "zod": "https://deno.land/x/zod@v3.22.4/mod.ts"
   },
