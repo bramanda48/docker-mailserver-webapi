@@ -1,0 +1,603 @@
+openapi: 3.1.0
+info:
+  description: >-
+    <strong>docker-mailserver</strong>, or DMS for short, is a production-ready fullstack but simple mail server 
+    (SMTP, IMAP, LDAP, Anti-spam, Anti-virus, etc.). It employs only configuration files, no SQL database. 
+    The image is focused around the slogan "Keep it simple and versioned".
+
+
+    <strong>docker-mailserver-webapi</strong> is an unofficial REST API that helps you effortlessly and 
+    efficiently manage your docker-mailserver configuration. 
+    It uses docker-mailserver setup.sh as a bridge for managing configurations.
+    
+    
+    In order to use this API you need a API key and add your IP
+    address to the whitelist of allowed IPs this can be done by add new environment variable
+    <strong>WEB_API_KEY</strong> and <strong>WEB_API_WHITELISTED_IP</strong> in your compose file.
+
+  title: Docker Mailserver - Web API
+  version: "1.0.0"
+
+servers:
+  - url: /
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+
+security:
+  - ApiKeyAuth: []
+  
+tags:
+  - name: DKIM (DomainKeys Identified Mail)
+    description: Manage DKIM Keys
+  - name: Mail Account
+    description: You can manage mail account.
+  - name: Aliases
+    description: You can manage aliases.
+  - name: Quota
+    description: You can manage quota.
+  - name: Dovecot
+    description: You can manage dovecot master and etc.
+  - name: Relay
+    description: You can manage relay-host service.
+  - name: Fail2ban
+    description: Manage netfilter fail2ban.
+  - name: Logs
+    description: Manage docker mailserver logs.
+  
+paths:
+  ############################################################################
+  # DKIM Manager
+  ############################################################################
+  /api/v1/config/dkim:
+    post:
+      tags:
+        - DKIM (DomainKeys Identified Mail)
+      summary: Creates DKIM keys and configures them within DMS.
+      operationId: setup-dkim
+      requestBody:
+        description: |
+          <strong>Configuration adjustments :</strong>
+          <pre>
+          keytype   Set the type of key you want to use.
+                    Possible values: rsa, ed25519
+                    Default: rsa
+          keysize   Set the size of the keys to be generated.
+                    Possible values: 1024, 2048 and 4096
+                    Default: 2048
+                    Only applies when using keytype=rsa
+          selector  Set a manual selector for the key.
+                    Default: mail
+          domain    Provide the domain for which to generate keys for.
+                    Default: The FQDN assigned to DMS, excluding any subdomain.
+          </pre>
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                keytype:
+                  type: string
+                  enum:
+                    - "rsa"
+                    - "ed25519"
+                keysize:
+                  type: integer
+                  enum:
+                    - 1024
+                    - 2048
+                    - 4096
+                  default: 2048
+                selector:
+                  type: string
+                  example: "mail"
+                domain: 
+                  type: string
+                  example: "example.com"
+      responses:
+        200:
+          description: Success
+          
+          
+  ############################################################################
+  # Mail Account
+  ############################################################################
+  /api/v1/email:
+    get: 
+      tags:
+        - Mail Account
+      summary: Get all registered mail account.
+      operationId: get-email
+      responses:
+        200:
+          description: Success
+          
+    post: 
+      tags:
+        - Mail Account
+      summary: Add a new mail account (email address).
+      operationId: add-email
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "user@example.com"
+                password:
+                  type: string
+                  example: "12345678"
+      responses:
+        200:
+          description: Success
+          
+    patch: 
+      tags:
+        - Mail Account
+      summary: Update the password for a mail account. 
+      operationId: update-email
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "user@example.com"
+                password:
+                  type: string
+                  example: "87654321"
+      responses:
+        200:
+          description: Success
+  
+    delete: 
+      tags:
+        - Mail Account
+      summary: Delete a mail account, including associated data (aliases, quotas) and
+        optionally the mailbox storage for that account.
+      operationId: delete-email
+      parameters: 
+        - in: query
+          name: email
+          schema:
+            type: array
+            items:
+              type: string
+              example: "user@example.com"
+          required: true
+          description: List of mail account
+      responses:
+        200:
+          description: Success
+          
+          
+  /api/v1/email/restrict:
+    get: 
+      tags:
+        - Mail Account
+      summary: Display restricted mail accounts.
+      operationId: get-email-restrict
+      parameters: 
+        - in: query
+          name: email
+          schema:
+            type: string
+            example: "user@example.com"
+          required: false
+          description: Registered mail account.
+      responses:
+        200:
+          description: Success
+          
+    post: 
+      tags:
+        - Mail Account
+      summary: Add a mail account to restricted list.
+      operationId: add-email-restrict
+      requestBody:
+        description: |
+          <strong>Configuration adjustments :</strong>
+          <pre>
+          access    The type of access that will be restricted.
+                    Possible values: send, receive
+          </pre>
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                access:
+                  type: string
+                  enum:
+                    - "send"
+                    - "receive"
+                email:
+                  type: string
+                  example: "user@example.com"
+      responses:
+        200:
+          description: Success
+          
+    delete: 
+      tags:
+        - Mail Account
+      summary: Remove a mail account from the restricted list.
+      operationId: delete-email-restrict
+      parameters: 
+        - in: query
+          name: access
+          schema:
+            type: string
+            enum:
+              - "send"
+              - "receive"
+          required: true
+          description: The type of access that will be restricted.
+        - in: query
+          name: email
+          schema:
+            type: string
+            example: "user@example.com"
+          required: true
+          description: Registered mail account.
+      responses:
+        200:
+          description: Success
+          
+  
+  ############################################################################
+  # Alias
+  ############################################################################
+  /api/v1/alias:
+    post: 
+      tags:
+        - Aliases
+      summary: Add an alias for a recipient (a mail account).
+      operationId: add-alias
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email_alias:
+                  type: string
+                  example: "alias@example.com"
+                email_recepient:
+                  type: array
+                  items:
+                    type: string
+                    example: "user@example.com"
+      responses:
+        200:
+          description: Success
+          
+    delete: 
+      tags:
+        - Aliases
+      summary: Remove a mail account (the recipient) from an existing alias. 
+      operationId: delete-alias
+      description: "If the alias has no more recipients, the alias will also be removed."
+      parameters: 
+        - in: query
+          name: email_alias
+          schema:
+            type: string
+            example: "alias@example.com"
+          required: true
+          description: Mail account alias.
+        - in: query
+          name: email_recepient
+          schema:
+            type: string
+            example: "user@example.com"
+          required: true
+          description: Mail account recepient.
+      responses:
+        200:
+          description: Success
+          
+          
+  ############################################################################
+  # Quota
+  ############################################################################
+  /api/v1/quota:
+    post: 
+      tags:
+        - Quota
+      summary: Set a quota (storage limit) for an existing mail account. 
+      operationId: add-quota
+      requestBody:
+        description: |
+          <strong>Configuration adjustments :</strong>
+          <pre>
+          quota     The quota value is in bytes. You may use a unit suffix for convenience,
+                    such as 10M for 10 MebiBytes (MiB). A value of 0 opts out of enforcing quota.
+          </pre>
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  example: "user@example.com"
+                quota:
+                  type: string
+                  example: "100M"
+      responses:
+        200:
+          description: Success
+          
+    delete: 
+      tags:
+        - Quota
+      summary: Remove any quota set for an existing mail account.
+      operationId: delete-quota
+      parameters: 
+        - in: query
+          name: email
+          schema:
+            type: string
+            example: "user@example.com"
+          required: true
+          description: Registered mail account.
+      responses:
+        200:
+          description: Success
+          
+          
+  ############################################################################
+  # Dovecot
+  ############################################################################
+  /api/v1/dovecot/master:
+    get: 
+      tags:
+        - Dovecot
+      summary: Get list dovecot-master account.
+      operationId: get-dovecot-master
+      responses:
+        200:
+          description: Success
+          
+    post: 
+      tags:
+        - Dovecot
+      summary: Add a new dovecot-master account (for POP3/IMAP administration).
+      operationId: add-dovecot-master
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: "dovecotuser"
+                password:
+                  type: string
+                  example: "12345678"
+      responses:
+        200:
+          description: Success
+          
+    patch: 
+      tags:
+        - Dovecot
+      summary: Update the password for a dovecot-master account. 
+      operationId: update-dovecot-master
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: "dovecotuser"
+                password:
+                  type: string
+                  example: "12345678"
+      responses:
+        200:
+          description: Success
+          
+    delete: 
+      tags:
+        - Dovecot
+      summary: Remove a dovecot-master account.
+      operationId: delete-dovecot-master
+      parameters: 
+        - in: query
+          name: username
+          schema:
+            type: array
+            items:
+              type: string
+              example: "dovecotuser"
+          required: true
+          description: Dovecot master username.
+      responses:
+        200:
+          description: Success
+          
+          
+  
+  ############################################################################
+  # Relay
+  ############################################################################
+  /api/v1/relay/add-auth:
+    post: 
+      tags:
+        - Relay
+      summary: Add credentials to authenticate to a relay-host service. 
+      operationId: relay-add-auth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                domain:
+                  type: string
+                  example: "example.com"
+                username:
+                  type: string
+                  example: "relayuser"
+                password:
+                  type: string
+                  example: "12345678"
+      responses:
+        200:
+          description: Success
+  
+  
+  /api/v1/relay/add-domain:
+    post: 
+      tags:
+        - Relay
+      summary: Add domain to relay-host service.
+      operationId: relay-add-domain
+      description: |
+        Add a relay-host where mail sent from mail accounts of the provided,
+        domain will be relayed through to their destination.
+    
+        If a port is not provided it will default to 25.
+    
+        If the relay-host requires authentication, use the 'setup relay add-auth'
+        command after adding the relay-host.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                domain:
+                  type: string
+                  example: "example.com"
+                host:
+                  type: string
+                  example: "smtp.relay.com"
+                port:
+                  type: integer
+                  example: 25
+      responses:
+        200:
+          description: Success
+          
+  
+  /api/v1/relay/exclude-domain:
+    post: 
+      tags:
+        - Relay
+      summary: Exclude the domain from relay-host service. 
+      operationId: relay-exclude-domain
+      description: |
+        When a default relay-host is configured (via ENV), the default behaviour
+        is to relay all your mail accounts outgoing mail through that service.
+    
+        This command allows to opt-out from that default behaviour by excluding
+        all mail accounts belonging to a hosted domain you specify.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                domain:
+                  type: string
+                  example: "example.com"
+      responses:
+        200:
+          description: Success
+  
+  
+  ############################################################################
+  # Fail2ban
+  ############################################################################
+  /api/v1/fail2ban:
+    get: 
+      tags:
+        - Fail2ban
+      summary: Get all banned IP Address.
+      operationId: get-fail2ban
+      responses:
+        200:
+          description: Success
+          
+  /api/v1/fail2ban/ban/{ip}:
+    post: 
+      tags:
+        - Fail2ban
+      summary: Add IP Address to the custom jail.
+      operationId: ban-fail2ban
+      parameters: 
+        - in: path
+          name: ip
+          schema:
+            type: string
+            example: "127.0.0.1"
+          required: true
+          description: IP address
+      responses:
+        200:
+          description: Success
+  
+  /api/v1/fail2ban/unban/{ip}:
+    post: 
+      tags:
+        - Fail2ban
+      summary: Unban IP Address. 
+      operationId: unban-fail2ban
+      parameters: 
+        - in: path
+          name: ip
+          schema:
+            type: string
+            example: "127.0.0.1"
+          required: true
+          description: IP address
+      responses:
+        200:
+          description: Success
+
+
+  ############################################################################
+  # Logs
+  ############################################################################
+  /api/v1/logs/postfix:
+    get: 
+      tags:
+        - Logs
+      summary: Get latest postfix logs.
+      operationId: get-logs-postfix
+      parameters: 
+        - in: query
+          name: limit
+          schema:
+            type: integer
+            example: 25
+          required: false
+          description: "Number of lines displayed (Default: 25)."
+      responses:
+        200:
+          description: Success

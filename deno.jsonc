@@ -3,17 +3,26 @@
   "tasks": {
     "start": "deno run -A dist/main.esm.js",
     "dev": "deno run -A --watch src/main.ts",
-    "deps": "deno cache --reload --lock=deno.lock --lock-write deps.ts",
+    "deps": "deno cache --reload --lock=deno.lock --lock-write deps.ts build.ts",
     "build": "deno run -A build.ts"
   },
   "imports": {
-    "~": "./src",
     "std/": "https://deno.land/std@0.218.0/",
     "esbuild": "https://deno.land/x/esbuild@v0.20.1/mod.js",
     "esbuild/loader": "https://deno.land/x/esbuild_deno_loader@0.9.0/mod.ts",
+    "esbuild/copy": "https://deno.land/x/esbuild_plugin_copy@v1.1.3/mod.ts",
     "hono": "https://deno.land/x/hono@v4.0.8/mod.ts",
     "hono/cors": "https://deno.land/x/hono@v4.0.8/middleware/cors/index.ts",
+    "hono/pretty-json": "https://deno.land/x/hono@v4.0.8/middleware/pretty-json/index.ts",
+    "hono/serve-static": "https://deno.land/x/hono@v4.0.8/middleware/serve-static/index.ts",
+    "hono/swagger-ui": "https://cdn.jsdelivr.net/npm/@hono/swagger-ui@0.2.1/+esm",
+    "status-code": "https://deno.land/x/https_status_codes@v1.2.0/mod.ts",
     "zod": "https://deno.land/x/zod@v3.22.4/mod.ts"
+  },
+  "scopes": {
+    "https://deno.land/x/esbuild_plugin_copy@v1.1.3/": {
+      "https://deno.land/x/esbuild@v0.19.2/mod.js": "https://deno.land/x/esbuild@v0.20.1/mod.js"
+    }
   },
   "compilerOptions": {
     "allowJs": false,
@@ -26,6 +35,9 @@
     "rules": {
       "tags": [
         "recommended"
+      ],
+      "exclude": [
+        "no-explicit-any"
       ]
     },
     "include": [
