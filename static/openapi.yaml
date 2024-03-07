@@ -171,12 +171,10 @@ paths:
         - in: query
           name: email
           schema:
-            type: array
-            items:
-              type: string
-              example: "user@example.com"
+            type: string
+            example: "user@example.com"
           required: true
-          description: List of mail account
+          description: Registered mail account.
       responses:
         200:
           description: Success
@@ -276,7 +274,7 @@ paths:
                 email_alias:
                   type: string
                   example: "alias@example.com"
-                email_recepient:
+                email_recipient:
                   type: array
                   items:
                     type: string
@@ -300,12 +298,12 @@ paths:
           required: true
           description: Mail account alias.
         - in: query
-          name: email_recepient
+          name: email_recipient
           schema:
             type: string
             example: "user@example.com"
           required: true
-          description: Mail account recepient.
+          description: Mail account recipient.
       responses:
         200:
           description: Success
@@ -315,11 +313,11 @@ paths:
   # Quota
   ############################################################################
   /api/v1/quota:
-    post: 
+    patch: 
       tags:
         - Quota
       summary: Set a quota (storage limit) for an existing mail account. 
-      operationId: add-quota
+      operationId: update-quota
       requestBody:
         description: |
           <strong>Configuration adjustments :</strong>
