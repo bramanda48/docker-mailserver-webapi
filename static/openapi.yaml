@@ -271,10 +271,10 @@ paths:
             schema:
               type: object
               properties:
-                email_alias:
+                emailAlias:
                   type: string
                   example: "alias@example.com"
-                email_recipient:
+                emailRecipient:
                   type: array
                   items:
                     type: string
@@ -291,14 +291,14 @@ paths:
       description: "If the alias has no more recipients, the alias will also be removed."
       parameters: 
         - in: query
-          name: email_alias
+          name: emailAlias
           schema:
             type: string
             example: "alias@example.com"
           required: true
           description: Mail account alias.
         - in: query
-          name: email_recipient
+          name: emailRecipient
           schema:
             type: string
             example: "user@example.com"
