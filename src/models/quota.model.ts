@@ -3,12 +3,8 @@ import { QuotaUsed } from "./quota-used.model.ts";
 export class Quota extends QuotaUsed {
   private quota: number;
 
-  constructor(
-    $quota: number,
-    $quota_used: number,
-    $quota_used_percent: number
-  ) {
-    super($quota_used, $quota_used_percent);
+  constructor($quota: number, $quotaUsed: number, $quotaUsedPercent: number) {
+    super($quotaUsed, $quotaUsedPercent);
     this.quota = $quota;
   }
 

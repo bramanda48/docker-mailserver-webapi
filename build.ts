@@ -12,7 +12,10 @@ await esbuild.build({
     copyPlugin({
       baseDir: "./",
       baseOutDir: "./dist",
-      files: [{ from: "static/**/*", to: "static/[path]/[name][ext]" }],
+      files: [
+        { from: "patches/**/*", to: "patches/[path]/[name][ext]" },
+        { from: "static/**/*", to: "static/[path]/[name][ext]" },
+      ],
     }),
   ],
   bundle: true,

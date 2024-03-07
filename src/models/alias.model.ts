@@ -1,15 +1,25 @@
 export class Alias {
-  private email: string;
+  private emailAlias: string;
+  private emailRecipient: string[];
 
-  constructor($email: string) {
-    this.email = $email;
+  constructor($emailAlias: string, $emailRecipient?: string[]) {
+    this.emailAlias = $emailAlias;
+    this.emailRecipient = $emailRecipient;
   }
 
   /**
-   * Getter $email
+   * Getter $emailAlias
    * @return {string}
    */
-  public get $email(): string {
-    return this.email;
+  public get $emailAlias(): string {
+    return this.emailAlias;
+  }
+
+  /**
+   * Getter $emailRecipient
+   * @return {string[]}
+   */
+  public get $emailRecipient(): string[] {
+    return this.emailRecipient;
   }
 }

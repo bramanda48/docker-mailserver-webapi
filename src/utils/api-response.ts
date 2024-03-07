@@ -49,7 +49,11 @@ export class ResponseFormat<T = any> {
   json(object: T | null, statusCode: number, headers?: HeaderRecord): Response {
     this.response.statusCode = statusCode ?? StatusCodes.OK;
     this.response.data = object;
-    return this.context.json(this.response, this.response.statusCode, headers);
+    return this.context.json(
+      this.response,
+      this.response.statusCode as -1,
+      headers
+    );
   }
 }
 

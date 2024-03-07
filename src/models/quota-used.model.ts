@@ -1,25 +1,25 @@
 export class QuotaUsed {
-  private quota_used: number;
-  private quota_used_percent: number;
+  private quotaUsed: number;
+  private quotaUsedPercent: number;
 
-  constructor($quota_used: number, $quota_used_percent: number) {
-    this.quota_used = $quota_used;
-    this.quota_used_percent = $quota_used_percent;
+  constructor($quotaUsed: number, $quotaUsedPercent: number) {
+    this.quotaUsed = $quotaUsed;
+    this.quotaUsedPercent = $quotaUsedPercent;
   }
 
   /**
-   * Getter $quota_used
+   * Getter $quotaUsed
    * @return {number}
    */
-  public get $quota_used(): number {
-    return this.quota_used;
+  public get $quotaUsed(): number {
+    return this.quotaUsed;
   }
 
   /**
-   * Getter $quota_used_percent
+   * Getter $quotaUsedPercent
    * @return {number}
    */
-  public get $quota_used_percent(): number {
-    return this.quota_used_percent;
+  public get $quotaUsedPercent(): number {
+    return this.quotaUsedPercent;
   }
 }
