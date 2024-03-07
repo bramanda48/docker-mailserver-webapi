@@ -1,10 +1,11 @@
 {
   "$schema": "https://raw.githubusercontent.com/denoland/deno/main/cli/schemas/config-file.v1.json",
   "tasks": {
-    "start": "deno run -A dist/main.esm.js",
-    "dev": "deno run -A --watch src/main.ts",
+    "start": "deno run --allow-all dist/main.esm.js",
+    "dev": "deno run --allow-all --watch src/main.ts",
     "deps": "deno cache --reload --lock=deno.lock --lock-write deps.ts build.ts",
-    "build": "deno run -A build.ts"
+    "build": "deno run --allow-all build.ts",
+    "test": "deno test --allow-all"
   },
   "imports": {
     "std/": "https://deno.land/std@0.218.0/",
