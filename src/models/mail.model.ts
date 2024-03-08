@@ -1,4 +1,5 @@
 import { Alias } from "./alias.model.ts";
+import { Restriction } from "./restriction.model.ts";
 import { Quota } from "./quota.model.ts";
 
 export class MailAccount {
@@ -6,17 +7,20 @@ export class MailAccount {
   private password: string;
   private alias: Alias[];
   private quota: Quota;
+  private restriction: Restriction;
 
   constructor(
     $email: string,
     $password: string,
     $alias?: Alias[],
-    $quota?: Quota
+    $quota?: Quota,
+    $restriction?: Restriction
   ) {
     this.email = $email;
     this.password = $password;
     this.alias = $alias;
     this.quota = $quota;
+    this.restriction = $restriction;
   }
 
   /**
@@ -49,5 +53,13 @@ export class MailAccount {
    */
   public get $quota(): Quota {
     return this.quota;
+  }
+
+  /**
+   * Getter $restriction
+   * @return {Restriction}
+   */
+  public get $restriction(): Restriction {
+    return this.restriction;
   }
 }

@@ -8,14 +8,20 @@ export class BaseService {
     public dbAccount: DatabaseService = new DatabaseService(
       DatabaseName.ACCOUNTS
     ),
+    public dbAccessSend: DatabaseService = new DatabaseService(
+      DatabaseName.ACCESS_SEND
+    ),
+    public dbAccessReceive: DatabaseService = new DatabaseService(
+      DatabaseName.ACCESS_RECEIVE
+    ),
     public dbDovecotMater: DatabaseService = new DatabaseService(
       DatabaseName.DOVECOT_MASTERS
     ),
-    public dbPasswd: DatabaseService = new DatabaseService(DatabaseName.PASSWD),
     public dbQuota: DatabaseService = new DatabaseService(DatabaseName.QUOTA),
-    public dbRelay: DatabaseService = new DatabaseService(DatabaseName.RELAY),
     public dbVirtual: DatabaseService = new DatabaseService(
       DatabaseName.VIRTUAL
-    )
+    ),
+    public dbPasswd: DatabaseService = new DatabaseService(DatabaseName.PASSWD),
+    public dbRelay: DatabaseService = new DatabaseService(DatabaseName.RELAY)
   ) {}
 }

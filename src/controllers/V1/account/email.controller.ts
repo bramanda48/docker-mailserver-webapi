@@ -1,8 +1,8 @@
 import { StatusCodes } from "status-code";
 import { Handler } from "hono";
-import { ResponseFormat } from "../../utils/api-response.ts";
-import { EmailService } from "../../services/account/email.service.ts";
-import { EmailValidation } from "../../validations/V1/email.validation.ts";
+import { ResponseFormat } from "../../../utils/api-response.ts";
+import { EmailService } from "../../../services/account/email.service.ts";
+import { EmailValidation } from "../../../validations/V1/account/email.validation.ts";
 
 const getAccount: Handler = async (c) => {
   const responseFormat = new ResponseFormat(c);

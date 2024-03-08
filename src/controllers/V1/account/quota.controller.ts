@@ -1,8 +1,8 @@
 import { StatusCodes } from "status-code";
 import { Handler } from "hono";
-import { ResponseFormat } from "../../utils/api-response.ts";
-import { QuotaValidation } from "../../validations/V1/quota.validation.ts";
-import { QuotaService } from "../../services/account/quota.service.ts";
+import { ResponseFormat } from "../../../utils/api-response.ts";
+import { QuotaValidation } from "../../../validations/V1/account/quota.validation.ts";
+import { QuotaService } from "../../../services/account/quota.service.ts";
 
 const updateQuota: Handler = async (c) => {
   const bodyParse = await c.req.json();

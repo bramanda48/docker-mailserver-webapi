@@ -6,11 +6,13 @@ import { utils } from "../../utils/utils.ts";
 import { BaseService } from "../base.service.ts";
 import { DovecotService } from "../dovecot/dovecot.service.ts";
 import { AliasService } from "./alias.service.ts";
+import { RestrictionService } from "./restriction.service.ts";
 
 export class EmailService extends BaseService {
   constructor(
     private dovecotService: DovecotService = new DovecotService(),
-    private aliasService: AliasService = new AliasService()
+    private aliasService: AliasService = new AliasService(),
+    private restrictionService: RestrictionService = new RestrictionService()
   ) {
     super();
   }
@@ -24,7 +26,8 @@ export class EmailService extends BaseService {
     for (const [email, password] of getAccount) {
       const alias = await this.aliasService.getAlias(email);
       const quota = await this.getQuota(email);
-      account.push(new MailAccount(email, password, alias, quota));
+      const restriction = await this.restrictionService.getRestriction(email);
+      account.push(new MailAccount(email, password, alias, quota, restriction));
     }
     return account;
   }

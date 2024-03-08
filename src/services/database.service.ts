@@ -1,12 +1,14 @@
-import { bytes, path, readline } from "../../deps.ts";
+import { bytes, fs, path, readline } from "../../deps.ts";
 import { InternalServerErrorException } from "../exceptions/internal-server.exception.ts";
 import { utils } from "../utils/utils.ts";
 
 export enum DatabaseName {
   ACCOUNTS = "postfix-accounts.cf",
+  ACCESS_SEND = "postfix-send-access.cf",
+  ACCESS_RECEIVE = "postfix-receive-access.cf",
   DOVECOT_MASTERS = "dovecot-masters.cf",
-  VIRTUAL = "postfix-virtual.cf",
   QUOTA = "dovecot-quotas.cf",
+  VIRTUAL = "postfix-virtual.cf",
   PASSWD = "postfix-sasl-password.cf",
   RELAY = "postfix-relaymap.cf",
 }
@@ -30,6 +32,9 @@ export class DatabaseService {
   constructor(name: DatabaseName) {
     this.databaseName = name;
     this.databasePath = path.resolve(`${this.configPath}/${name}`);
+
+    // Create file if not exists
+    if (!fs.existsSync(this.databasePath)) Deno.create(this.databasePath);
   }
 
   public get databaseDelimiter(): string {
@@ -47,6 +52,11 @@ export class DatabaseService {
       name == DatabaseName.VIRTUAL
     ) {
       return " ";
+    } else if (
+      name == DatabaseName.ACCESS_SEND ||
+      name == DatabaseName.ACCESS_RECEIVE
+    ) {
+      return " \t\t ";
     } else {
       throw new InternalServerErrorException(
         `Unsupported DB ${this.databaseName}`

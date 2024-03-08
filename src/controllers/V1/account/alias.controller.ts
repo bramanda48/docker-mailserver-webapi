@@ -1,8 +1,8 @@
 import { StatusCodes } from "status-code";
 import { Handler } from "hono";
-import { ResponseFormat } from "../../utils/api-response.ts";
-import { AliasService } from "../../services/account/alias.service.ts";
-import { AliasValidation } from "../../validations/V1/alias.validation.ts";
+import { ResponseFormat } from "../../../utils/api-response.ts";
+import { AliasService } from "../../../services/account/alias.service.ts";
+import { AliasValidation } from "../../../validations/V1/account/alias.validation.ts";
 
 const createAlias: Handler = async (c) => {
   const bodyParse = await c.req.json();
