@@ -27,7 +27,7 @@ export interface FindTextOptions {
 export class DatabaseService {
   private databaseName: string = "";
   private databasePath: string = "";
-  private configPath: string = "./config";
+  private configPath: string = "/tmp/docker-mailserver";
 
   constructor(name: DatabaseName) {
     this.databaseName = name;
