@@ -2,7 +2,7 @@ name: Build Deno
 
 env:
   DENO_VERSION: "v1.x"
-  ARCHIVE_NAME: docker-mailserver-webapi-${{ github.run_id }}
+  ARCHIVE_NAME: docker-mailserver-webapi
 
 on:
   push:
