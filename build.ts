@@ -13,8 +13,8 @@ await esbuild.build({
       baseDir: "./",
       baseOutDir: "./dist",
       files: [
-        { from: "patches/**/*", to: "patches/[path]/[name][ext]" },
-        { from: "static/**/*", to: "static/[path]/[name][ext]" },
+        { from: "patches/*", to: "patches/[name][ext]" },
+        { from: "static/*", to: "static/[name][ext]" },
       ],
     }),
   ],
