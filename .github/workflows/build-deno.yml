@@ -1,0 +1,29 @@
+name: Build Deno
+
+env:
+  DENO_VERSION: "v1.x"
+  ARCHIVE_NAME: docker-mailserver-webapi
+
+on:
+  push:
+    branches:
+      - "master"
+
+jobs:
+  build:
+    name: "Build apps"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: ${{ env.DENO_VERSION }}
+      - name: Build release
+        run: deno task build
+      - name: Create archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ARCHIVE_NAME }}
+          path: dist/
+          if-no-files-found: error
