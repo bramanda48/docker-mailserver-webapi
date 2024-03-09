@@ -6,7 +6,7 @@ import { BaseService } from "../base.service.ts";
 export class DovecotService extends BaseService {
   public getQuotaUsed(email: string): QuotaUsed {
     try {
-      const cmd = new Deno.Command("patches/doveadm-quota-used.sh", {
+      const cmd = new Deno.Command("scripts/doveadm-quota-used.sh", {
         args: [email],
       });
       const { success, stdout } = cmd.outputSync();
@@ -24,7 +24,7 @@ export class DovecotService extends BaseService {
   }
 
   public createPasswordHash(password: string): string {
-    const cmd = new Deno.Command("patches/doveadm-password.sh", {
+    const cmd = new Deno.Command("scripts/doveadm-password.sh", {
       args: [password],
     });
     const { success, stdout } = cmd.outputSync();
