@@ -1,13 +1,19 @@
 #!/bin/bash
 
-# This user patches script runs right before starting the daemons.
-# That means, all the other configuration is in place, so the script
-# can make final adjustments.
-# If you modify any supervisord configuration, make sure to run
-# "supervisorctl update" or "supervisorctl reload" afterwards.
-
+# ===============================================================
+# Usage
+# ===============================================================
+# To install the latest docker-mailserver-webapi, you can follow 
+# these instructions :
+#
+# 1. Create new file user-patches.sh in config folder
+# 2. Add this script inside user-patches.sh
+#   $ curl -fsSL https://raw.githubusercontent.com/bramanda48/docker-mailserver-webapi/master/scripts/user-patches.sh | bash
+# 3. Redeploy the container
+#
 # For more information, see
 # https://docker-mailserver.github.io/docker-mailserver/edge/config/advanced/override-defaults/user-patches/
+#
 
 CHANNEL="nightly"
 DMS_CONFIG="/tmp/docker-mailserver"
@@ -140,6 +146,7 @@ function do_patch() {
   fi
 
   # Unzip the file
+  rm -r "${DMS_CONFIG}/webapi"
   unzip docker-mailserver-webapi.zip -d "${DMS_CONFIG}/webapi"
 
 	if [ -z "$(command_exists deno)" ]; then
