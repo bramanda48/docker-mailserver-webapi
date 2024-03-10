@@ -5,6 +5,7 @@ import { errorHandler } from "./middlewares/error.middleware.ts";
 import { DefaultRoute } from "./routes/base.route.ts";
 
 const app = new Hono();
+const cwd = Deno.cwd();
 
 // middleware
 app.use("*", cors());
@@ -34,3 +35,4 @@ DefaultRoute.forEach((route) => {
   app.route(`${route.path}`, route.route);
 });
 Deno.serve({ port: 3000 }, app.fetch);
+console.log(`Running on directory ${cwd}`);

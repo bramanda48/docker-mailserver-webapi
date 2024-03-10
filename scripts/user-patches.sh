@@ -120,7 +120,8 @@ autostart=false
 autorestart=true
 stdout_logfile=/var/log/supervisor/%(program_name)s.log
 stderr_logfile=/var/log/supervisor/%(program_name)s.log
-command=/usr/bin/deno run -A ${DMS_CONFIG}/webapi/main.esm.js
+directory=${DMS_CONFIG}/webapi
+command=/bin/bash -c "deno run --allow-all main.esm.js"
 EOL
 }
 
@@ -146,7 +147,7 @@ function do_patch() {
   fi
 
   # Unzip the file
-  rm -r "${DMS_CONFIG}/webapi"
+  rm -rf "${DMS_CONFIG}/webapi"
   unzip docker-mailserver-webapi.zip -d "${DMS_CONFIG}/webapi"
 
 	if [ -z "$(command_exists deno)" ]; then
