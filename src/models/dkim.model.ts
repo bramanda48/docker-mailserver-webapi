@@ -1,38 +1,39 @@
+import { DnsRecord } from "./dns-record.model.ts";
+
+export enum DKIMValidator {
+  opendkim = "opendkim",
+  rspamd = "rspamd",
+}
 export class DKIM {
-  private keytype: string;
-  private keysize: string;
+  private validator: DKIMValidator;
   private selector: string;
   private domain: string;
-  private adapter: string;
+  private publicKey: string;
+  private privateKey: string;
+  private dnsRecord: DnsRecord;
 
   constructor(
-    $keytype: string,
-    $keysize: string,
+    $validator: DKIMValidator,
     $selector: string,
     $domain: string,
-    $adapter: string
+    $publicKey?: string,
+    $privateKey?: string,
+    $dnsRecord?: DnsRecord
   ) {
-    this.keytype = $keytype;
-    this.keysize = $keysize;
+    this.validator = $validator;
     this.selector = $selector;
     this.domain = $domain;
-    this.adapter = $adapter;
+    this.publicKey = $publicKey;
+    this.privateKey = $privateKey;
+    this.dnsRecord = $dnsRecord;
   }
 
   /**
-   * Getter $keytype
-   * @return {string}
+   * Getter $validator
+   * @return {DKIMValidator}
    */
-  public get $keytype(): string {
-    return this.keytype;
-  }
-
-  /**
-   * Getter $keysize
-   * @return {string}
-   */
-  public get $keysize(): string {
-    return this.keysize;
+  public get $validator(): DKIMValidator {
+    return this.validator;
   }
 
   /**
@@ -52,10 +53,26 @@ export class DKIM {
   }
 
   /**
-   * Getter $adapter
+   * Getter $publicKey
    * @return {string}
    */
-  public get $adapter(): string {
-    return this.adapter;
+  public get $publicKey(): string {
+    return this.publicKey;
+  }
+
+  /**
+   * Getter $privateKey
+   * @return {string}
+   */
+  public get $privateKey(): string {
+    return this.privateKey;
+  }
+
+  /**
+   * Getter $dnsRecord
+   * @return {DnsRecord}
+   */
+  public get $dnsRecord(): DnsRecord {
+    return this.dnsRecord;
   }
 }

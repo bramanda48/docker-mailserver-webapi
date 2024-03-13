@@ -63,6 +63,10 @@ paths:
         description: |
           <strong>Configuration adjustments :</strong>
           <pre>
+          selector  Set a manual selector for the key.
+                    Default: mail
+          domain    Provide the domain for which to generate keys for.
+                    Default: The FQDN assigned to DMS, excluding any subdomain.
           keytype   Set the type of key you want to use.
                     Possible values: rsa, ed25519
                     Default: rsa
@@ -70,10 +74,6 @@ paths:
                     Possible values: 1024, 2048 and 4096
                     Default: 2048
                     Only applies when using keytype=rsa
-          selector  Set a manual selector for the key.
-                    Default: mail
-          domain    Provide the domain for which to generate keys for.
-                    Default: The FQDN assigned to DMS, excluding any subdomain.
           </pre>
         required: true
         content:
@@ -81,6 +81,12 @@ paths:
             schema:
               type: object
               properties:
+                selector:
+                  type: string
+                  example: "mail"
+                domain: 
+                  type: string
+                  example: "example.com"
                 keytype:
                   type: string
                   enum:
@@ -93,12 +99,6 @@ paths:
                     - 2048
                     - 4096
                   default: 2048
-                selector:
-                  type: string
-                  example: "mail"
-                domain: 
-                  type: string
-                  example: "example.com"
       responses:
         200:
           description: Success
