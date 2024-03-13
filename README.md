@@ -23,18 +23,19 @@
 
 ## Installation & Usage
 
-1. Create new file user-patches.sh in config folder
-2. Add this script inside user-patches.sh
+1. Create new file user-patches.sh in config folder.
+2. Add this script inside user-patches.sh.
    ```bash
     curl -fsSL https://raw.githubusercontent.com/bramanda48/docker-mailserver-webapi/master/scripts/user-patches.sh | bash
    ```
-3. Redeploy the container
+3. By default, this application will run on port 3000. You need to add the port to docker-compose.yml.
+4. Redeploy the container.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/bramanda48/docker-mailserver-webapi/blob/master/LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/bramanda48/docker-mailserver-webapi/blob/master/LICENSE.md) file for details.
 
 ## Acknowledgments
 
 Inspiration, code snippets, icon, etc.
-* [Docker Mailserver](https://github.com/docker-mailserver/docker-mailserver) by The Docker Mailserver Organization & Contributors
+* [Docker Mailserver](https://github.com/docker-mailserver/docker-mailserver) by The Docker Mailserver Organization & Contributors.

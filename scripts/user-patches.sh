@@ -6,10 +6,11 @@
 # To install the latest docker-mailserver-webapi, you can follow 
 # these instructions :
 #
-# 1. Create new file user-patches.sh in config folder
-# 2. Add this script inside user-patches.sh
+# 1. Create new file user-patches.sh in config folder.
+# 2. Add this script inside user-patches.sh.
 #   $ curl -fsSL https://raw.githubusercontent.com/bramanda48/docker-mailserver-webapi/master/scripts/user-patches.sh | bash
-# 3. Redeploy the container
+# 3. By default, this application will run on port 3000. You need to add the port to docker-compose.yml.
+# 4. Redeploy the container.
 #
 # For more information, see
 # https://docker-mailserver.github.io/docker-mailserver/edge/config/advanced/override-defaults/user-patches/
