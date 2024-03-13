@@ -6,8 +6,8 @@ info:
     The image is focused around the slogan "Keep it simple and versioned".
 
 
-    <strong>docker-mailserver-webapi</strong> is an unofficial REST API that helps you effortlessly and 
-    efficiently manage your docker-mailserver configuration. 
+    <strong>docker-mailserver-webapi</strong> is a REST API that helps you efficiently 
+    manage your docker-mailserver configuration. 
     It uses docker-mailserver setup.sh as a bridge for managing configurations.
     
     
