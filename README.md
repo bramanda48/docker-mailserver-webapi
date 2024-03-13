@@ -28,7 +28,7 @@
    ```bash
     curl -fsSL https://raw.githubusercontent.com/bramanda48/docker-mailserver-webapi/master/scripts/user-patches.sh | bash
    ```
-3. By default, this application will run on port 3000. You need to add the port to docker-compose.yml.
+3. By default, this application will run on port 3000. You need add the port to docker-compose.yml.
 4. Redeploy the container.
 
 ## License
