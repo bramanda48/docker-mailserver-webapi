@@ -6,9 +6,10 @@
   </a>
   <h2 align="center">Docker Mailserver - Web API</h2>
   <div align="center">
-    <h4 align="center">a REST API that helps you efficiently manage your docker-mailserver configuration. It uses docker-mailserver setup.sh as a bridge for managing configurations.</h4>
+    <p align="center">a REST API that helps you efficiently manage your docker-mailserver configuration.</p>
     <div>
-        <a href="#license"><img src="https://img.shields.io/badge/License-MIT-blue" alt="License"></a>
+        <a href="https://github.com/bramanda48/docker-mailserver-webapi/releases/"><img src="https://img.shields.io/github/release/bramanda48/docker-mailserver-webapi?include_prereleases=&sort=semver&color=blue" alt="GitHub release"></a>
+        <a href="https://github.com/bramanda48/docker-mailserver-webapi#license"><img src="https://img.shields.io/badge/License-MIT-blue" alt="License"></a>
     </div>
   </div>
 </div>
@@ -17,8 +18,8 @@
 
 | Branch  | Status            |
 |---------|-------------------|
-| master  | Under development |
-| develop | Under development |
+| master  | <img src="https://img.shields.io/static/v1?label=&message=Under+Development&color=8B8000&logo=deno" alt="Under Development"> |
+| develop | <img src="https://img.shields.io/static/v1?label=&message=Under+Development&color=8B8000&logo=deno" alt="Under Development"> |
 
 ## Installation & Usage
 
