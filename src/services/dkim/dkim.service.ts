@@ -20,7 +20,7 @@ export class DkimService extends BaseService {
     keytype: string,
     keysize: number
   ): DKIM {
-    this.createDkimKey();
+    this.createDkimKey(selector, domain, keytype, keysize);
 
     const enableRspamd: boolean = this.env.get("ENABLE_RSPAMD");
     const validator: DKIMValidator = enableRspamd
@@ -79,9 +79,14 @@ export class DkimService extends BaseService {
     );
   }
 
-  private createDkimKey(): void {
+  private createDkimKey(
+    selector: string,
+    domain: string,
+    keytype: string,
+    keysize: number
+  ): void {
     const cmd = new Deno.Command("scripts/dkim-key.sh", {
-      args: [],
+      args: [selector, domain, keytype, keysize.toString()],
     });
     const { success } = cmd.outputSync();
     if (!success) {
@@ -89,9 +94,9 @@ export class DkimService extends BaseService {
     }
   }
 
-  private createPublicKey(privateKey: string): string {
+  private createPublicKey(privateKey: string, keytype: string = "rsa"): string {
     const cmd = new Deno.Command("scripts/openssl-public-key.sh", {
-      args: [privateKey],
+      args: [privateKey, keytype],
     });
     const { success, stdout } = cmd.outputSync();
     if (!success) {

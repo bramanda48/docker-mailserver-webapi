@@ -1,2 +1,2 @@
 #!/bin/bash
-setup config dkim keysize "$1" selector "$2" domain "$3" --force
+setup config dkim selector "$1" domain "$2" keytype "$3" keysize "$4"  --force
