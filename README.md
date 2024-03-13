@@ -1,7 +1,7 @@
 <a name="readme-top"></a>
 
 <div align="center">
-  <a href="https://github.com/bramanda48/docker-hosts-writer">
+  <a href="https://github.com/bramanda48/docker-mailserver-webapi">
     <img src="./screenshoot/image-1.png" alt="Screenshoot" width="500px">
   </a>
   <h2 align="center">Docker Mailserver - Web API</h2>
@@ -12,6 +12,8 @@
     </div>
   </div>
 </div>
+
+---
 
 | Branch  | Status            |
 |---------|-------------------|
@@ -29,9 +31,9 @@
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/bramanda48/docker-hosts-writer/blob/master/LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE.md](https://github.com/bramanda48/docker-mailserver-webapi/blob/master/LICENSE.md) file for details
 
 ## Acknowledgments
 
 Inspiration, code snippets, icon, etc.
-* [Docker Mailserver](https://github.com/docker-mailserver/docker-mailserver)
+* [Docker Mailserver](https://github.com/docker-mailserver/docker-mailserver) by The Docker Mailserver Organization & Contributors
