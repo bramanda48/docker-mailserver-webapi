@@ -13,6 +13,7 @@ await esbuild.build({
       baseDir: "./",
       baseOutDir: "./dist",
       files: [
+        { from: ".env.example", to: ".env.example" },
         { from: "scripts/*", to: "scripts/[name][ext]" },
         { from: "static/*", to: "static/[name][ext]" },
       ],

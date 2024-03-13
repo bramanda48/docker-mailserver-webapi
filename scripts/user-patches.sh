@@ -1,13 +1,20 @@
 #!/bin/bash
 
-# This user patches script runs right before starting the daemons.
-# That means, all the other configuration is in place, so the script
-# can make final adjustments.
-# If you modify any supervisord configuration, make sure to run
-# "supervisorctl update" or "supervisorctl reload" afterwards.
-
+# ===============================================================
+# Usage
+# ===============================================================
+# To install the latest docker-mailserver-webapi, you can follow 
+# these instructions :
+#
+# 1. Create new file user-patches.sh in config folder.
+# 2. Add this script inside user-patches.sh.
+#   $ curl -fsSL https://raw.githubusercontent.com/bramanda48/docker-mailserver-webapi/master/scripts/user-patches.sh | bash
+# 3. By default, this application will run on port 3000. You need to add the port to docker-compose.yml.
+# 4. Redeploy the container.
+#
 # For more information, see
 # https://docker-mailserver.github.io/docker-mailserver/edge/config/advanced/override-defaults/user-patches/
+#
 
 CHANNEL="nightly"
 DMS_CONFIG="/tmp/docker-mailserver"
@@ -114,7 +121,8 @@ autostart=false
 autorestart=true
 stdout_logfile=/var/log/supervisor/%(program_name)s.log
 stderr_logfile=/var/log/supervisor/%(program_name)s.log
-command=/usr/bin/deno run -A ${DMS_CONFIG}/webapi/main.esm.js
+directory=${DMS_CONFIG}/webapi
+command=/bin/bash -c "deno run --allow-all main.esm.js"
 EOL
 }
 
@@ -140,6 +148,7 @@ function do_patch() {
   fi
 
   # Unzip the file
+  rm -rf "${DMS_CONFIG}/webapi"
   unzip docker-mailserver-webapi.zip -d "${DMS_CONFIG}/webapi"
 
 	if [ -z "$(command_exists deno)" ]; then

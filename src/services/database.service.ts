@@ -1,6 +1,7 @@
 import { bytes, fs, path, readline } from "../../deps.ts";
 import { InternalServerErrorException } from "../exceptions/internal-server.exception.ts";
 import { utils } from "../utils/utils.ts";
+import { EnvService } from "./env.service.ts";
 
 export enum DatabaseName {
   ACCOUNTS = "postfix-accounts.cf",
@@ -25,16 +26,21 @@ export interface FindTextOptions {
 }
 
 export class DatabaseService {
-  private databaseName: string = "";
-  private databasePath: string = "";
-  private configPath: string = "/tmp/docker-mailserver";
+  private env: EnvService = new EnvService();
+
+  private configPath: string;
+  private databaseName: string;
+  private databasePath: string;
 
   constructor(name: DatabaseName) {
+    this.configPath = this.env.get("WEB_API_DMS_CONFIG_PATH");
     this.databaseName = name;
-    this.databasePath = path.resolve(`${this.configPath}/${name}`);
+    this.databasePath = path.resolve(this.configPath, this.databaseName);
 
     // Create file if not exists
-    if (!fs.existsSync(this.databasePath)) Deno.create(this.databasePath);
+    if (!fs.existsSync(this.databasePath)) {
+      Deno.create(this.databasePath);
+    }
   }
 
   public get databaseDelimiter(): string {
@@ -68,7 +74,7 @@ export class DatabaseService {
     options?: FindOptions
   ): Promise<T> {
     const getFile = await Deno.readTextFile(this.databasePath);
-    const arrayText = getFile.split(/\r?\n/);
+    const arrayText = getFile.split(new RegExp(/\r?\n/));
     const filteredText = arrayText.filter((text) => !utils.isEmpty(text));
 
     if (options?.split) {

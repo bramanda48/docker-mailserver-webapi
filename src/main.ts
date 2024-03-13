@@ -1,10 +1,17 @@
 import { swaggerUI } from "hono/swagger-ui";
-import { Hono, cors, fs, prettyJSON, serveStatic } from "../deps.ts";
+import { Hono, cors, dotenv, fs, prettyJSON, serveStatic } from "../deps.ts";
 import { notFoundHandler } from "./middlewares/error.middleware.ts";
 import { errorHandler } from "./middlewares/error.middleware.ts";
 import { DefaultRoute } from "./routes/base.route.ts";
 
 const app = new Hono();
+const cwd = Deno.cwd();
+
+// environment variables
+dotenv.loadSync({
+  allowEmptyValues: true,
+  export: true,
+});
 
 // middleware
 app.use("*", cors());
@@ -34,3 +41,4 @@ DefaultRoute.forEach((route) => {
   app.route(`${route.path}`, route.route);
 });
 Deno.serve({ port: 3000 }, app.fetch);
+console.log(`Running on directory ${cwd}`);
