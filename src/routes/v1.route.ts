@@ -4,6 +4,7 @@ import { EmailController } from "../controllers/V1/account/email.controller.ts";
 import { RestrictionController } from "../controllers/V1/account/restriction.controller.ts";
 import { QuotaController } from "../controllers/V1/account/quota.controller.ts";
 import { DkimController } from "../controllers/V1/dkim/dkim.controller.ts";
+import { DovecotMasterController } from "../controllers/V1/dovecot/dovecot-master.controller.ts";
 
 const route = new Hono();
 
@@ -24,4 +25,9 @@ route.delete("/alias", AliasController.removeAlias);
 
 route.patch("/quota", QuotaController.updateQuota);
 route.delete("/quota", QuotaController.removeQuota);
+
+route.get("/dovecot/master", DovecotMasterController.getAccount);
+route.post("/dovecot/master", DovecotMasterController.createAccount);
+route.patch("/dovecot/master", DovecotMasterController.updatePassword);
+route.delete("/dovecot/master", DovecotMasterController.removeAccount);
 export const V1Route = route;
