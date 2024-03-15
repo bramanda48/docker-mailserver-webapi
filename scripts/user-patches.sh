@@ -190,8 +190,8 @@ function do_patch() {
   fi
 
   # Unzip the file
-  unzip docker-mailserver-webapi.zip -d "${DMS_CONFIG}/webapi"
-  rm -rf docker-mailserver-webapi.zip
+  unzip docker-mailserver-webapi.zip -d "${DMS_CONFIG}/webapi" && rm -rf docker-mailserver-webapi.zip
+  chmod -R +x "${DMS_CONFIG}/webapi/scripts"
 
   # Check .env file
   detect_env
