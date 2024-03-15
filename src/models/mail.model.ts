@@ -11,7 +11,7 @@ export class MailAccount {
 
   constructor(
     $email: string,
-    $password: string,
+    $password?: string,
     $alias?: Alias[],
     $quota?: Quota,
     $restriction?: Restriction

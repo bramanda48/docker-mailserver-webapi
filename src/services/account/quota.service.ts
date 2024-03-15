@@ -1,4 +1,5 @@
 import { NotFoundException } from "../../exceptions/not-found.exception.ts";
+import { MailAccount } from "../../models/mail.model.ts";
 import { Quota } from "../../models/quota.model.ts";
 import { utils } from "../../utils/utils.ts";
 import { BaseService } from "../base.service.ts";
@@ -27,7 +28,7 @@ export class QuotaService extends BaseService {
     return new Quota(utils.iecToNum(quota), $quotaUsed, $quotaUsedPercent);
   }
 
-  public async removeQuota(email: string): Promise<boolean> {
+  public async removeQuota(email: string): Promise<MailAccount> {
     const getQuota: string[] = await this.dbQuota.findText(email);
     if (getQuota.length == 0) {
       throw new NotFoundException("Mail account does not exist");
@@ -35,6 +36,6 @@ export class QuotaService extends BaseService {
 
     const quota: string = getQuota[0];
     this.dbQuota.remove(quota);
-    return true;
+    return new MailAccount(email);
   }
 }
