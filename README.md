@@ -6,7 +6,7 @@
   </a>
   <h2 align="center">Docker Mailserver - Web API</h2>
   <div align="center">
-    <p align="center">a REST API that helps you efficiently manage your docker-mailserver configuration.</p>
+    <p align="center">a REST API that helps you efficiently manage your <a href="https://github.com/docker-mailserver/docker-mailserver" title="Docker Mailserver">docker-mailserver</a> configuration.</p>
     <div>
         <a href="https://github.com/bramanda48/docker-mailserver-webapi/releases/"><img src="https://img.shields.io/github/release/bramanda48/docker-mailserver-webapi?include_prereleases=&sort=semver&color=blue" alt="GitHub release"></a>
         <a href="https://github.com/bramanda48/docker-mailserver-webapi#license"><img src="https://img.shields.io/badge/License-MIT-blue" alt="License"></a>
@@ -23,12 +23,14 @@
 
 ## Installation & Usage
 
-1. Create new file user-patches.sh in config folder.
-2. Add this script inside user-patches.sh.
+1. Create new file `user-patches.sh` in config folder.
+2. Add this script inside `user-patches.sh`.
    ```bash
+    #!/bin/bash
+
     curl -fsSL https://raw.githubusercontent.com/bramanda48/docker-mailserver-webapi/master/scripts/user-patches.sh | bash
    ```
-3. By default, this application will run on port 3000. You need add the port to docker-compose.yml.
+3. By default, this application will run on port 3000. You need add the port to `docker-compose.yml`.
 4. Redeploy the container.
 
 ## License

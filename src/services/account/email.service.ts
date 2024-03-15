@@ -78,7 +78,7 @@ export class EmailService extends BaseService {
     return new MailAccount(email, password);
   }
 
-  public async removeAccount(email: string): Promise<boolean> {
+  public async removeAccount(email: string): Promise<MailAccount> {
     const getAccount: string[] = await this.dbAccount.findText(email);
     if (getAccount.length == 0) {
       throw new NotFoundException("Mail account does not exist");
@@ -86,6 +86,6 @@ export class EmailService extends BaseService {
 
     const account: string = getAccount[0];
     this.dbAccount.remove(account);
-    return null;
+    return new MailAccount(email);
   }
 }

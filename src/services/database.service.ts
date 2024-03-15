@@ -75,7 +75,9 @@ export class DatabaseService {
   ): Promise<T> {
     const getFile = await Deno.readTextFile(this.databasePath);
     const arrayText = getFile.split(new RegExp(/\r?\n/));
-    const filteredText = arrayText.filter((text) => !utils.isEmpty(text));
+    const filteredText = arrayText.filter(
+      (text) => !utils.isEmpty(text) && !text.startsWith("#")
+    );
 
     if (options?.split) {
       return filteredText.map((text) =>

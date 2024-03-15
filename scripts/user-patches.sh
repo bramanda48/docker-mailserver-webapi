@@ -97,14 +97,14 @@ function _get_log_level_or_default() {
 }
 
 function get_distribution() {
-	lsb_dist=""
+	DIST=""
 	# Every system that we officially support has /etc/os-release
 	if [ -r /etc/os-release ]; then
-		lsb_dist="$(. /etc/os-release && echo "$PRETTY_NAME")"
+		DIST="$(. /etc/os-release && echo "$PRETTY_NAME")"
 	fi
 	# Returning an empty string here should be alright since the
 	# case statements don"t act unless you provide an actual value
-	echo "$lsb_dist"
+	echo "$DIST"
 }
 
 command_exists() {
@@ -124,6 +124,42 @@ stderr_logfile=/var/log/supervisor/%(program_name)s.log
 directory=${DMS_CONFIG}/webapi
 command=/bin/bash -c "deno run --allow-all main.esm.js"
 EOL
+}
+
+function detect_env() {
+  ENV_FILE="${DMS_CONFIG}/webapi/.env"
+  API_KEY=""
+
+  if [[ -f "$ENV_FILE" ]]; then
+    # Read .env file into an associative array
+    declare -A env_vars
+    while IFS='=' read -r key value; do
+      value=$(echo $value | tr -d "'\"")
+      env_vars["$key"]="$value"
+    done < "$ENV_FILE"
+
+    if [[ -z "${env_vars["WEB_API_KEY"]}" ]]; then
+      _log "info" "Generating api key ..."
+      API_KEY="$(openssl rand -base64 25)"
+      env_vars["WEB_API_KEY"]="$API_KEY"
+    else
+      API_KEY="${env_vars["WEB_API_KEY"]}"
+    fi
+
+    # Save all variable
+    for key in "${!env_vars[@]}"; do
+      echo "$key=\"${env_vars[$key]}\""
+    done > "$ENV_FILE"
+
+    _log "info" "Load .env file: ${ENV_FILE}"
+    echo "=========================================="
+    cat $ENV_FILE | grep WEB_API_KEY
+    echo "=========================================="
+  else
+    _log "info" "New environment detected"
+    cp "${ENV_FILE}.example" "${ENV_FILE}"
+    detect_env
+  fi
 }
 
 function start_daemon() {
@@ -147,9 +183,16 @@ function do_patch() {
     exit 1;
   fi
 
+  # Remove old scripts
+  find "${DMS_CONFIG}/webapi" -mindepth 1 -maxdepth 1 -type d -exec rm -rf {} +
+  find "${DMS_CONFIG}/webapi" -mindepth 1 -maxdepth 1 -type f ! -name ".env" -delete
+
   # Unzip the file
-  rm -rf "${DMS_CONFIG}/webapi"
   unzip docker-mailserver-webapi.zip -d "${DMS_CONFIG}/webapi"
+  rm -rf docker-mailserver-webapi.zip
+
+  # Check .env file
+  detect_env
 
 	if [ -z "$(command_exists deno)" ]; then
 		_log "info" "Installing deno ..."
