@@ -2,14 +2,14 @@ import { z } from "../../../../deps.ts";
 
 export const DovecotMasterValidation = {
   createAcoount: z.object({
-    email: z.string().email(),
+    username: z.string(),
     password: z.string(),
   }),
   updatePassword: z.object({
-    email: z.string().email(),
+    username: z.string(),
     password: z.string(),
   }),
   removeAccount: z.object({
-    email: z.string().email(),
+    username: z.string(),
   }),
 };

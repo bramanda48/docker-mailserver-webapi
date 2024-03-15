@@ -1,18 +1,18 @@
 export class DovecotMaster {
-  private email: string;
+  private username: string;
   private password: string;
 
-  constructor($email: string, $password?: string) {
-    this.email = $email;
+  constructor($username: string, $password?: string) {
+    this.username = $username;
     this.password = $password;
   }
 
   /**
-   * Getter $email
+   * Getter $username
    * @return {string}
    */
-  public get $email(): string {
-    return this.email;
+  public get $username(): string {
+    return this.username;
   }
 
   /**
