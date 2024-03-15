@@ -184,8 +184,10 @@ function do_patch() {
   fi
 
   # Remove old scripts
-  find "${DMS_CONFIG}/webapi" -mindepth 1 -maxdepth 1 -type d -exec rm -rf {} +
-  find "${DMS_CONFIG}/webapi" -mindepth 1 -maxdepth 1 -type f ! -name ".env" -delete
+  if [ -d "${DMS_CONFIG}/webapi" ]; then
+    find "${DMS_CONFIG}/webapi" -mindepth 1 -maxdepth 1 -type d -exec rm -rf {} +
+    find "${DMS_CONFIG}/webapi" -mindepth 1 -maxdepth 1 -type f ! -name ".env" -delete
+  fi
 
   # Unzip the file
   unzip docker-mailserver-webapi.zip -d "${DMS_CONFIG}/webapi"
