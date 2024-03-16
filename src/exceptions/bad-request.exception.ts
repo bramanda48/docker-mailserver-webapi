@@ -1,5 +1,5 @@
 import { StatusCodes } from "status-code";
-import { BaseException } from "./base.exceptions.ts";
+import { BaseException } from "./base.exception.ts";
 
 export class BadRequestException extends BaseException {
   constructor() {

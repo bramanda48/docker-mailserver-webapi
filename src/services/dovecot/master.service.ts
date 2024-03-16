@@ -1,4 +1,4 @@
-import { ConflictException } from "../../exceptions/conflict.excpetion.ts";
+import { ConflictException } from "../../exceptions/conflict.exception.ts";
 import { NotFoundException } from "../../exceptions/not-found.exception.ts";
 import { DovecotMaster } from "../../models/dovecot-master.model.ts";
 import { BaseService } from "../base.service.ts";
