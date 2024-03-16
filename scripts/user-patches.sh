@@ -122,7 +122,7 @@ autorestart=true
 stdout_logfile=/var/log/supervisor/%(program_name)s.log
 stderr_logfile=/var/log/supervisor/%(program_name)s.log
 directory=${DMS_CONFIG}/webapi
-command=/bin/bash -c "deno run --allow-all main.esm.js"
+command=/bin/bash -c "deno run --allow-all --unstable-ffi main.esm.js"
 EOL
 }
 

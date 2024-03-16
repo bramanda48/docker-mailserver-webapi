@@ -11,3 +11,4 @@ export * from "hono/swagger-ui";
 export * from "status-code";
 export * as z from "zod";
 export * from "readline";
+export * as sqlite3 from "sqlite3";

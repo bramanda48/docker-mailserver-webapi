@@ -1,8 +1,8 @@
 {
   "$schema": "https://raw.githubusercontent.com/denoland/deno/main/cli/schemas/config-file.v1.json",
   "tasks": {
-    "start": "deno run --allow-all dist/main.esm.js",
-    "dev": "deno run --allow-all --watch src/main.ts",
+    "start": "deno run --allow-all --unstable-ffi dist/main.esm.js",
+    "dev": "deno run --allow-all --unstable-ffi --watch src/main.ts",
     "deps": "deno cache --reload --lock=deno.lock --lock-write deps.ts build.ts",
     "build": "deno run --allow-all build.ts",
     "test": "deno test --allow-all"
@@ -19,7 +19,8 @@
     "hono/swagger-ui": "https://cdn.jsdelivr.net/npm/@hono/swagger-ui@0.2.1/+esm",
     "status-code": "https://deno.land/x/https_status_codes@v1.2.0/mod.ts",
     "zod": "https://deno.land/x/zod@v3.22.4/mod.ts",
-    "readline": "https://deno.land/x/readline@v1.1.0/mod.ts"
+    "readline": "https://deno.land/x/readline@v1.1.0/mod.ts",
+    "sqlite3": "https://deno.land/x/sqlite3@0.11.0/mod.ts"
   },
   "scopes": {
     "https://deno.land/x/esbuild_plugin_copy@v1.1.3/": {
