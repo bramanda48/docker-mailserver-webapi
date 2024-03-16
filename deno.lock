@@ -415,6 +415,7 @@
     "https://deno.land/x/hono@v4.0.8/hono.ts": "23edd0140bf0bd5a68c14ae96e5856a5cec6b844277e853b91025e91ea74f416",
     "https://deno.land/x/hono@v4.0.8/http-exception.ts": "0dc357bbf1510f59cdfc35aad569df97e5652f7406f0693437fe140383d8d9c0",
     "https://deno.land/x/hono@v4.0.8/middleware/cors/index.ts": "69e208e2bfd6345f14892e59ea817818373b3ebd74163177d687cd47ddbe1f6c",
+    "https://deno.land/x/hono@v4.0.8/middleware/logger/index.ts": "4baf9217b61f5e9e937c3e4e6cd87508c83603fcee77c33edba0a6ae2cc41ccd",
     "https://deno.land/x/hono@v4.0.8/middleware/pretty-json/index.ts": "2216ce4c9910be009fecac63367c3626b46137d4cf7cb9a82913e501104b4a88",
     "https://deno.land/x/hono@v4.0.8/middleware/serve-static/index.ts": "8a6e0e82ee7459e518ce8dc3d91e7872b272ffdf9a26dbcee3ff17f2157be088",
     "https://deno.land/x/hono@v4.0.8/mod.ts": "90114a97be9111b348129ad0143e764a64921f60dd03b8f3da529db98a0d3a82",

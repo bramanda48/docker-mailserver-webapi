@@ -16,6 +16,7 @@
     "hono/cors": "https://deno.land/x/hono@v4.0.8/middleware/cors/index.ts",
     "hono/pretty-json": "https://deno.land/x/hono@v4.0.8/middleware/pretty-json/index.ts",
     "hono/serve-static": "https://deno.land/x/hono@v4.0.8/middleware/serve-static/index.ts",
+    "hono/logger": "https://deno.land/x/hono@v4.0.8/middleware/logger/index.ts",
     "hono/swagger-ui": "https://cdn.jsdelivr.net/npm/@hono/swagger-ui@0.2.1/+esm",
     "status-code": "https://deno.land/x/https_status_codes@v1.2.0/mod.ts",
     "zod": "https://deno.land/x/zod@v3.22.4/mod.ts",
