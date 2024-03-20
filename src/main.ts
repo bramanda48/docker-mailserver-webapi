@@ -5,7 +5,7 @@ import { errorHandler } from "./middlewares/error.middleware.ts";
 import { DefaultRoute } from "./routes/base.route.ts";
 import { apiKeyAuth } from "./middlewares/apikey-auth.middleware.ts";
 import { demo } from "./middlewares/demo.middleware.ts";
-import { utils } from "./utils/utils.ts";
+import { parseClientIp } from "./utils/parse-client-ip.ts";
 
 const app = new Hono<Environment>();
 const cwd = Deno.cwd();
@@ -54,7 +54,7 @@ DefaultRoute.forEach((route) => {
 
 // run server
 Deno.serve({ port: 3000 }, (request, handler) => {
-  const remoteAddr = () => utils.getClientIp(request, handler);
+  const remoteAddr = () => parseClientIp(request, handler);
   return app.fetch(request, { ...env, remoteAddr });
 });
 console.log(`Running on directory ${cwd}`);

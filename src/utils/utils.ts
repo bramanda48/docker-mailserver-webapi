@@ -85,6 +85,14 @@ export const utils = {
     return str && str.match(new RegExp(/\r?\n$/))?.length > 0;
   },
 
+  isValidIP(value: string): boolean {
+    const regex = {
+      ipv4: /^(?:(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])\.){3}(?:\d|[1-9]\d|1\d{2}|2[0-4]\d|25[0-5])$/,
+      ipv6: /^((?=.*::)(?!.*::.+::)(::)?([\dA-F]{1,4}:(:|\b)|){5}|([\dA-F]{1,4}:){6})((([\dA-F]{1,4}((?!\3)::|:\b|$))|(?!\2\3)){2}|(((2[0-4]|1\d|[1-9])?\d|25[0-5])\.?\b){4})$/i,
+    };
+    return regex.ipv4.test(value) || regex.ipv6.test(value);
+  },
+
   // This function is similar to the 'numfmt' command
   // with the option '--from=iec'
   // (ex: numfmt --from=iec 100M)
@@ -127,53 +135,5 @@ export const utils = {
 
   arrayMerge<A, B extends A>(array1: A[], array2: B[]): A[] {
     return [...new Set([...array1, ...array2])];
-  },
-
-  // This function from https://github.com/pbojinov/request-ip/blob/master/src/index.js
-  getClientIp: (request: Request, handler: Deno.ServeHandlerInfo): string => {
-    // Standard headers used by Amazon EC2, Heroku, and others.
-    if (request.headers.has("x-client-ip")) {
-      return request.headers.get("x-client-ip");
-    }
-
-    // Cloudflare.
-    // @see https://support.cloudflare.com/hc/en-us/articles/200170986-How-does-Cloudflare-handle-HTTP-Request-headers-
-    // CF-Connecting-IP - applied to every request to the origin.
-    if (request.headers.has("cf-connecting-ip")) {
-      return request.headers.get("cf-connecting-ip");
-    }
-
-    // DigitalOcean.
-    // @see https://www.digitalocean.com/community/questions/app-platform-client-ip
-    // DO-Connecting-IP - applied to app platform servers behind a proxy.
-    if (request.headers.has("do-connecting-ip")) {
-      return request.headers.get("do-connecting-ip");
-    }
-
-    // Fastly and Firebase hosting header (When forwared to cloud function)
-    if (request.headers.has("fastly-client-ip")) {
-      return request.headers.get("fastly-client-ip");
-    }
-
-    // Akamai and Cloudflare: True-Client-IP.
-    if (request.headers.has("true-client-ip")) {
-      return request.headers.get("true-client-ip");
-    }
-
-    // Default nginx proxy/fcgi; alternative to x-forwarded-for, used by some proxies.
-    if (request.headers.has("x-real-ip")) {
-      return request.headers.get("x-real-ip");
-    }
-
-    if (request.headers.has("x-forwarded")) {
-      return request.headers.get("x-forwarded");
-    }
-
-    if (request.headers.has("forwarded-for")) {
-      return request.headers.get("forwarded-for");
-    }
-
-    // Remote address checks.
-    return handler.remoteAddr.hostname;
   },
 };
