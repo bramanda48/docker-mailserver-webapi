@@ -21,7 +21,7 @@ jobs:
           deno-version: ${{ env.DENO_VERSION }}
 
       - name: Update environement variable
-        run: cp .env.example .env
+        run: cp .env.example .env && ls -al
 
       - name: Build release
         run: deno task build

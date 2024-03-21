@@ -4,7 +4,7 @@
     "start": "deno run --allow-all --unstable-ffi dist/main.esm.js",
     "dev": "deno run --allow-all --unstable-ffi --watch src/main.ts",
     "deps": "deno cache --reload --lock=deno.lock --lock-write deps.ts build.ts",
-    "build": "deno run --allow-all build.ts",
+    "build": "deno run --allow-all --allow-ffi build.ts",
     "test": "deno test --allow-all"
   },
   "imports": {
