@@ -599,12 +599,12 @@ paths:
   ############################################################################
   # Logs
   ############################################################################
-  /api/v1/logs/postfix:
+  /api/v1/logs/fail2ban:
     get: 
       tags:
         - Logs
-      summary: Get latest postfix logs.
-      operationId: get-logs-postfix
+      summary: Get latest fail2ban logs.
+      operationId: get-logs-fail2ban
       parameters: 
         - in: query
           name: limit

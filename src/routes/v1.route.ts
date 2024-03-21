@@ -7,6 +7,7 @@ import { DkimController } from "../controllers/V1/dkim/dkim.controller.ts";
 import { DovecotMasterController } from "../controllers/V1/dovecot/dovecot-master.controller.ts";
 import { Fail2banController } from "../controllers/V1/fail2ban/fail2ban.controller.ts";
 import { RelayController } from "../controllers/V1/relay/relay.controller.ts";
+import { LogsController } from "../controllers/logs.controller.ts";
 
 const route = new Hono();
 
@@ -40,4 +41,6 @@ route.post("/relay/exclude-domain", RelayController.excludeDomain);
 route.get("/fail2ban", Fail2banController.getJail);
 route.post("/fail2ban/ban/{ip}", Fail2banController.banIpAddress);
 route.post("/fail2ban/unban/{ip}", Fail2banController.unbanIpAddress);
+
+route.get("/logs/fail2ban", LogsController.getFail2banLogs);
 export const V1Route = route;

@@ -30,9 +30,7 @@
   },
   "compilerOptions": {
     "allowJs": false,
-    "lib": [
-      "deno.window"
-    ],
+    "lib": ["deno.window"],
     "strict": true,
     "strictPropertyInitialization": false,
     "strictNullChecks": false,
@@ -41,16 +39,10 @@
   },
   "lint": {
     "rules": {
-      "tags": [
-        "recommended"
-      ],
-      "exclude": [
-        "no-explicit-any"
-      ]
+      "tags": ["recommended"],
+      "exclude": ["no-explicit-any"]
     },
-    "include": [
-      "src/"
-    ]
+    "include": ["src/"]
   },
   "fmt": {
     "useTabs": false,
@@ -59,8 +51,6 @@
     "semiColons": true,
     "singleQuote": false,
     "proseWrap": "preserve",
-    "include": [
-      "src/"
-    ]
+    "include": ["src/"]
   }
 }
