@@ -19,13 +19,13 @@ const getAccount: Handler = async (c) => {
 
 const createAccount: Handler = async (c) => {
   const bodyParse = await c.req.json();
-  const { email, password } =
+  const { username, password } =
     DovecotMasterValidation.createAcoount.parse(bodyParse);
 
   const responseFormat = new ResponseFormat(c);
   const dovecotMasterService = new DovecotMasterService();
 
-  const account = await dovecotMasterService.createAccount(email, password);
+  const account = await dovecotMasterService.createAccount(username, password);
   return responseFormat
     .withRequestData({
       timestamp: new Date(),
@@ -37,13 +37,13 @@ const createAccount: Handler = async (c) => {
 
 const updatePassword: Handler = async (c) => {
   const bodyParse = await c.req.json();
-  const { email, password } =
+  const { username, password } =
     DovecotMasterValidation.updatePassword.parse(bodyParse);
 
   const responseFormat = new ResponseFormat(c);
   const dovecotMasterService = new DovecotMasterService();
 
-  const account = await dovecotMasterService.updatePassword(email, password);
+  const account = await dovecotMasterService.updatePassword(username, password);
   return responseFormat
     .withRequestData({
       timestamp: new Date(),
@@ -55,12 +55,12 @@ const updatePassword: Handler = async (c) => {
 
 const removeAccount: Handler = async (c) => {
   const queryParse = c.req.query();
-  const { email } = DovecotMasterValidation.removeAccount.parse(queryParse);
+  const { username } = DovecotMasterValidation.removeAccount.parse(queryParse);
 
   const responseFormat = new ResponseFormat(c);
   const dovecotMasterService = new DovecotMasterService();
 
-  const account = await dovecotMasterService.removeAccount(email);
+  const account = await dovecotMasterService.removeAccount(username);
   return responseFormat
     .withRequestData({
       timestamp: new Date(),

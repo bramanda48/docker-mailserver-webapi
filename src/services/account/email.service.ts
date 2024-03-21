@@ -1,4 +1,4 @@
-import { ConflictException } from "../../exceptions/conflict.excpetion.ts";
+import { ConflictException } from "../../exceptions/conflict.exception.ts";
 import { NotFoundException } from "../../exceptions/not-found.exception.ts";
 import { MailAccount } from "../../models/mail.model.ts";
 import { Quota } from "../../models/quota.model.ts";

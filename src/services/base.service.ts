@@ -1,3 +1,4 @@
+import { path, sqlite3 } from "../../deps.ts";
 import { DatabaseName } from "./database.service.ts";
 import { DatabaseService } from "./database.service.ts";
 import { EnvService } from "./env.service.ts";
@@ -12,6 +13,7 @@ export class BaseService {
   protected dbVirtual: DatabaseService;
   protected dbPasswd: DatabaseService;
   protected dbRelay: DatabaseService;
+  protected dbFail2ban: sqlite3.Database;
 
   constructor() {
     this.env = new EnvService();
@@ -23,5 +25,9 @@ export class BaseService {
     this.dbVirtual = new DatabaseService(DatabaseName.VIRTUAL);
     this.dbPasswd = new DatabaseService(DatabaseName.PASSWD);
     this.dbRelay = new DatabaseService(DatabaseName.RELAY);
+    this.dbFail2ban = new sqlite3.Database(
+      path.resolve(this.env.get("WEB_API_FAIL2BAN_SQLITE_PATH")),
+      { readonly: true }
+    );
   }
 }

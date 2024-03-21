@@ -19,7 +19,24 @@ info:
   version: "1.0.0"
 
 servers:
-  - url: /
+  - url: "{protocol}://{host}:{port}/{baseUrl}"
+    description: ''
+    variables:
+      protocol:
+        default: http
+        enum:
+          - http
+          - https
+        description: The protocol used to access the server.
+      host:
+        default: localhost
+        description: The hostname or IP address of the server.
+      port:
+        default: "3000"
+        description: The port number on which the server is listening for requests
+      baseUrl:
+        default: ""
+        description: The base URL path for all API endpoints. This can be used to group related endpoints together under a common path.
 
 components:
   securitySchemes:
@@ -582,12 +599,12 @@ paths:
   ############################################################################
   # Logs
   ############################################################################
-  /api/v1/logs/postfix:
+  /api/v1/logs/fail2ban:
     get: 
       tags:
         - Logs
-      summary: Get latest postfix logs.
-      operationId: get-logs-postfix
+      summary: Get latest fail2ban logs.
+      operationId: get-logs-fail2ban
       parameters: 
         - in: query
           name: limit
