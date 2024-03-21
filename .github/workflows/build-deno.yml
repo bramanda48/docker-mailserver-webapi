@@ -19,8 +19,13 @@ jobs:
         uses: denoland/setup-deno@v1
         with:
           deno-version: ${{ env.DENO_VERSION }}
+
+      - name: Update environement variable
+        run: cp .env.example .env
+
       - name: Build release
         run: deno task build
+
       - name: Create archive
         uses: actions/upload-artifact@v4
         with:
