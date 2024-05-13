@@ -11,9 +11,9 @@ export class RelayService extends BaseService {
   ): Promise<RelayAuth> {
     const sender: string = `@${domain}`;
     const relayHostEntry: string = `${username}:${password}`;
-    const getPasswd: string[] = await this.dbPasswd.findText(sender);
-    if (getPasswd.length > 0) {
-      this.dbRelay.replace(getPasswd[0], sender, relayHostEntry);
+    const getRelay: string[] = await this.dbRelay.findText(sender);
+    if (getRelay.length > 0) {
+      this.dbRelay.replace(getRelay[0], sender, relayHostEntry);
     } else {
       this.dbRelay.addOrAppend(sender, relayHostEntry);
     }

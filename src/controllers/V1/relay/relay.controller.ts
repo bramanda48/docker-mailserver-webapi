@@ -11,7 +11,7 @@ const addAuth: Handler = async (c) => {
   const responseFormat = new ResponseFormat(c);
   const relayService = new RelayService();
 
-  const auth = relayService.addAuth(domain, username, password);
+  const auth = await relayService.addAuth(domain, username, password);
   return responseFormat
     .withRequestData({
       timestamp: new Date(),
@@ -28,7 +28,7 @@ const addDomain: Handler = async (c) => {
   const responseFormat = new ResponseFormat(c);
   const relayService = new RelayService();
 
-  const domains = relayService.addDomain(domain, host, port);
+  const domains = await relayService.addDomain(domain, host, port);
   return responseFormat
     .withRequestData({
       timestamp: new Date(),
@@ -45,7 +45,7 @@ const excludeDomain: Handler = async (c) => {
   const responseFormat = new ResponseFormat(c);
   const relayService = new RelayService();
 
-  const exclude = relayService.excludeDomain(domain);
+  const exclude = await relayService.excludeDomain(domain);
   return responseFormat
     .withRequestData({
       timestamp: new Date(),
