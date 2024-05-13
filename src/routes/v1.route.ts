@@ -39,8 +39,8 @@ route.post("/relay/add-domain", RelayController.addDomain);
 route.post("/relay/exclude-domain", RelayController.excludeDomain);
 
 route.get("/fail2ban", Fail2banController.getJail);
-route.post("/fail2ban/ban/{ip}", Fail2banController.banIpAddress);
-route.post("/fail2ban/unban/{ip}", Fail2banController.unbanIpAddress);
+route.post("/fail2ban/ban/:ip", Fail2banController.banIpAddress);
+route.post("/fail2ban/unban/:ip", Fail2banController.unbanIpAddress);
 
 route.get("/logs/fail2ban", LogsController.getFail2banLogs);
 export const V1Route = route;
