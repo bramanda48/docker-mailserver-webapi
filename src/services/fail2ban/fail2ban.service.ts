@@ -20,8 +20,8 @@ export class Fail2banService extends BaseService {
         ({ name, currentlyBanned, totalBanned, bannedIps }) =>
           new Fail2banJail(
             name,
-            totalBanned,
             currentlyBanned,
+            totalBanned,
             bannedIps.split(",")
           )
       );
