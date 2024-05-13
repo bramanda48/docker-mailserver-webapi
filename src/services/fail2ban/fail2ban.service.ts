@@ -28,6 +28,8 @@ export class Fail2banService extends BaseService {
   }
 
   public banIpAddress(ipAddress: string): Fail2banJail {
+    if (this.dbFail2ban.open) this.dbFail2ban.close();
+
     const cmd = new Deno.Command("scripts/fail2ban-banned-ip.sh", {
       args: [ipAddress],
     });
@@ -39,6 +41,8 @@ export class Fail2banService extends BaseService {
   }
 
   public unbanIpAddress(ipAddress: string): Fail2banJail {
+    if (this.dbFail2ban.open) this.dbFail2ban.close();
+
     const cmd = new Deno.Command("scripts/fail2ban-unbanned-ip.sh", {
       args: [ipAddress],
     });
