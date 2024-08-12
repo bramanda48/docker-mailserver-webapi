@@ -70,11 +70,14 @@ jobs:
       - name: Build release
         run: deno task build
 
+      - name: Create zip archive
+        run: cd dist && zip -r ../dist.zip *
+
       - name: Upload build file
         uses: svenstaro/upload-release-action@2.2.1
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           tag: "v${{ env.INPUT_VENDOR_VERSION }}"
-          file: dist/
+          file: dist.zip
           asset_name: docker-mailserver-webapi.zip
           prerelease: ${{ needs.create_release.outputs.prerelease }}
