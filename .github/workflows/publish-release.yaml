@@ -1,0 +1,80 @@
+name: Publish Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      vendor_version:
+        type: string
+        description: "Vendor Version (semver) for the release -- what will be visible."
+        default: "1.0.0"
+        required: true
+
+env:
+  DENO_VERSION: "v1.x"
+  INPUT_VENDOR_VERSION: ${{ github.event.inputs.vendor_version || '1.0.0' }}
+
+permissions:
+  contents: write
+
+jobs:
+  create_release:
+    name: Create release
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ env.INPUT_VENDOR_VERSION }}
+      prerelease: ${{ steps.versioning.outputs.is-prerelease }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Determine release version
+        id: versioning
+        uses: Fresa/trunk-based-release-versioning@v0
+
+      - name: Convert commit logs to JSON
+        id: convert-commit-logs
+        uses: mikefarah/yq@master
+        with:
+          cmd: yq ea -o=json 'select(. != null) | [.]' "$(echo "${{ steps.versioning.outputs.commit-logs-path }}" | sed "s|^${{ github.workspace }}/||")" | tee commit_logs.json
+
+      - name: Generate release notes
+        id: release_notes
+        uses: Fresa/release-notes-generator@v2
+        with:
+          version: ${{ env.INPUT_VENDOR_VERSION }}
+          last_release_ref: ${{ steps.versioning.outputs.last-release-ref }}
+          release_ref: ${{ steps.versioning.outputs.release-ref }}
+          path_to_commits: ./commit_logs.json
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "v${{ env.INPUT_VENDOR_VERSION }}"
+          name: "v${{ env.INPUT_VENDOR_VERSION }}"
+          body: ${{ steps.release_notes.outputs.release_notes }}
+          prerelease: ${{ steps.versioning.outputs.is-prerelease }}
+          draft: false
+
+  release:
+    name: "Release apps"
+    runs-on: ubuntu-latest
+    needs: create_release
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: ${{ env.DENO_VERSION }}
+
+      - name: Update environement variable
+        run: cp .env.example .env && ls -al
+
+      - name: Build release
+        run: deno task build
+
+      - name: Upload build file
+        uses: svenstaro/upload-release-action@2.2.1
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: "v${{ env.INPUT_VENDOR_VERSION }}"
+          file: dist/
+          asset_name: docker-mailserver-webapi.zip
+          prerelease: ${{ needs.create_release.outputs.prerelease }}

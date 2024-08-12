@@ -16,7 +16,7 @@
 # https://docker-mailserver.github.io/docker-mailserver/edge/config/advanced/override-defaults/user-patches/
 #
 
-CHANNEL="nightly"
+CHANNEL="stable"
 DMS_CONFIG="/tmp/docker-mailserver"
 SUPERVISOR_FILENAME="/etc/supervisor/conf.d/supervisor-webapi.conf"
 
